@@ -6,9 +6,12 @@
 \usepackage{algorithmic}
 \usepackage{graphicx}
 \usepackage{textcomp}
-\usepackage{xcolor}
+\usepackage{xcolor, soul}
+\sethlcolor{green}
 \usepackage{hyperref}
 \usepackage{tikz}
+\usepackage{stfloats}
+\usepackage{placeins}
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
     
@@ -22,7 +25,7 @@
 
 \begin{document}
 
-\title{Analysis of Stock Market data and providing predictions using CNN-LSTM Neural Network model\\
+\title{Predicting Stock Market time-series data using CNN-LSTM Neural Network model\\
 }
 
 \author{\IEEEauthorblockN{Aadhitya A}
@@ -72,42 +75,34 @@ Before the time of writing this paper, many have proposed and implemented variou
 \section{Proposed Work}
 After we conducted the literature survey, we realised some of the key points to be taken while designing a ML model
 \begin{itemize}
-\item The model must be designed in such a way that it should parse real-time data and not just sample data
+\item The model must be designed in such a way that it should parse real-time stock market data and not just sample data
 \item The data has to be preprocessed correctly in order to avoid errors during training and testing phase
-\item The accuracy of the model not only depends upon it's parameters but the dataset as well
-\item The only point most of the papers didn't mention is the deployment, as it's one of the most important fact while creating a model
+\item The accuracy of the model not only depends upon it's parameters but also the dataset as well
+\item The only point most of the papers didn't mention is the deployment, as it's one of the most important fact while making an ML/DL model
 \end{itemize}
-Considering the above key points, we focused on making the ML model. We decided to go on with CNN-LSTM Neural Network (Convolutional Neural Network and Long Term Short Memory Neural Network) approach because CNN helps in tracking the features of dataset and LSTM helps in tracking the patterns, allowing to train on them. This approach isn't the first time as some already tried to implement it but we tweaked the parameters and layers to experiment and test it on real-time data. Since this is a regression type of problem where we had to train with time-series data, we used Mean Square Error as the standard metric rather than accuracy (because accuracy will return 0.0000+e00 even if loss value is present)
-
-Considering the fact that user experience must be stable and good, we designed a simple architecture diagram to understand the basic working of the full-stack web application. This is shown in Fig. \ref{simple-arch}.
-
-\begin{figure}[htbp]
-\centerline{\includegraphics[scale=0.07]{SI - Arch.png}}
-\caption{Architecture diagram for web app}
-\label{simple-arch}
-\end{figure}
+Considering the above key points, we focused on making the ML model. We decided to go on with CNN-LSTM Neural Network (Convolutional Neural Network and Long Term Short Memory Neural Network) approach because CNN helps in tracking the features of dataset and LSTM helps in tracking the patterns, allowing to train on them. This approach isn't the first time as some researchers already tried to implement the CNN-LSTM method but we tweaked the parameters, kernel sizes (for CNN) and layers to experiment and test it on real-time data. Since this is a regression type of problem where we had to train with time-series data, we used Mean Square Error as the standard metric rather than accuracy.
 
 For the neural network, we first analysed with other works and then decided the architecture in order to maintain novelty. The architecture diagram for the neural network is shown in Fig. \ref{model-sam}.
 
-\begin{figure}[htbp]
-\centerline{\includegraphics[scale=0.2]{Model-sam.png}}
-\caption{Architecture for neural network (sample)}
+\begin{figure*}[htbp]
+\centerline{\includegraphics[scale=0.3]{SI - Arch.png}}
+\caption{Architecture for Deep Learning model}
 \label{model-sam}
-\end{figure}
+\end{figure*}
 
-\textbf{NOTE: For this project, we mainly used Python and Jupyter Notebooks to perform the experiment. To see the experiment we did, refer \url{https://github.com/Circle-1/Stock-X}}
+\textbf{NOTE: For this project, we mainly used Python and Jupyter Notebooks via Colab and Kaggle to perform the experiment. To see the experiment we did, refer \url{https://github.com/Circle-1/Stock-X}}
 
 \section{Experimental Analysis}
-For the experiment, we used Python for data preprocessing and creating a Neural Network model. For the application part, we used Flask framework using Python for backend and NextJS framework using JavaScript for frontend. For deployment, it's considered as minimal because, we saved the model in HDF5 format using Keras, but in addition to that, we made a Docker Image and Helm charts for people to work on. In this section, the major parts of the project and the experiments performed are described.
+For the experiment, we used Python for data preprocessing and creating a Neural Network model. For deployment, it's considered as minimal because, we saved the model in HDF5 format using Keras, but in addition to that, we made a Docker Image and Helm charts for people to work on. In this section, the major parts of the project and the experiments performed are described.
 
 \subsection{Data Collection, Analysis and Preprocessing}\label{A}
-Before making a model, the first step is to collect enough datasets such that the base analysis is made to study about the stock market data. So, we gathered enough datasets from Kaggle (explained in later stages) but realised that they are sample ones and we had to search for real time ones. Then, we came across several finance APIs like Yahoo finance, Alpha Vantage which helps in gathering stock data for specific time period. So, we took Alpha Vantage API and used "TIME\_SERIES\_DAILY (Extended)" option to obtain stock data of a company ranging since 10 years. We used full mode to collect enough data rather than using compact mode in API (which fetches only 100 columns meant for rapid usage cases) and we were able to collect the data for any company with valid credentials like API keys. Then we stored the data in CSV format for testing phase.
+Before making a model, the first step is to collect enough datasets such that the base analysis is made to study about the stock market data. So, we gathered enough datasets from Kaggle (explained in later stages) but realised that they are sample ones and we had to search for real time ones. Then, we came across several finance APIs like Yahoo finance, Alpha Vantage which helps in gathering stock data for specific time period. So, we took Alpha Vantage API and used "TIME\_SERIES\_DAILY (Extended)" option to obtain stock data of a company ranging since 10 years. We used "full" mode to collect enough data rather than using "compact" mode in API (which fetches only 100 columns meant for rapid usage cases) and we were able to collect the data for any company with valid API keys. Some stock data is also gathered using Google Sheets via "GOOGLEFINANCE" function. Then we stored the data in CSV format for testing phase.
 
 Then, we did an Exploratory Data Analysis (EDA) on the dataset to know about the stock market data in depth. We also implemented Moving Average and Daily Return columns to know how a stock market works and analysed some of the features present in it. After that, we went to preprocessing phase.
 
 In preprocessing phase, we first cleansed the data by removing NULL values from the dataset and taking the mean of data and replacing it if necessary using Pandas library. Then we took the four columns of any stock market dataset, namely "Open", "Close", "High", "Low". These are the columns which mainly involve in training the dataset especially "Close" column (shown in Fig. \ref{dataset-1}). The graphs are plotted using the matplotlib and seaborn library in Python. 
 
-During preprocessing stage, we realised that CNN always considers 2-Dimensional arrays to train and select required features. But here, the data we have is of 1-Dimensional arrays. This is why CNN is always seen in Computer Vision (CV) based applications and not in NLP based applications. 
+During preprocessing stage, we realised that CNN always considers 2-Dimensional and 3-Dimensional arrays to train and select required features. But here, the data we have is of 1-Dimensional arrays. This is one of the reasons why CNN is often seen in Computer Vision (CV) based applications and not in NLP based applications. 
 
 \begin{figure}[htbp]
 \centerline{\includegraphics[scale=0.7]{Annotation-1.png}}
@@ -115,7 +110,7 @@ During preprocessing stage, we realised that CNN always considers 2-Dimensional 
 \label{dataset-1}
 \end{figure}
 
-So, in order for CNN model to parse the dataset, we made a function where the 1-D arrays are made to convert to [100,1] tensor (precisely, a vector). Tensors are a type of data structures that describe a mulilinear relationship between set of objects in a vector space. So, for converting 1-D array to tensor, every 100 rows are taken and from that the mean of the values are calculated and made to store in a separate column. This process is done for entire dataset. In our case, we did this on the "Close" column as it's the main column where we would decide the prediction of the stock data.
+So, in order for CNN model to parse the dataset, we made a function where the 1-D arrays are made to convert to [100,1] tensors (precisely, a vector). Tensors are a type of data structures that describe a mulilinear relationship between set of objects in a vector space. So, for converting 1-D array to tensor, every 100 rows are taken and from that the mean of the values are calculated and made to store in a separate column. This process is done for entire dataset. In our case, we did this on the "Close" column as it's the main column where we would decide the prediction of the stock data.
 
 After this step, we would obtain tensors for CNN side of model to train. Then, we split 80\% for training and 20\% for testing. Finally, we reshaped the data and sent it to the training phase. 
 
@@ -125,22 +120,22 @@ After the dataset is processed, the NN model has to be made. In our case, it's t
 For our model, we considered to divide the model into two parts, CNN and LSTM.
 
 \subsubsection{CNN}
-For the CNN section of model, we followed a custom way instead of ascending kind of way in the size of layers. So, we made 3 layers of neuron size 64,128,64 with MaxPooling layers in between. Finally we added a Flatten layer at end of CNN section to convert the tensors back to 1-D array.
+For the CNN section of model, we followed a custom way instead of ascending kind of way in the size of layers. So, we made 3 layers of neuron size 64,128,64 with kernel size=3 along with MaxPooling layers in between. Finally we added a Flatten layer at end of CNN section to convert the tensors back to 1-D array.
 
 All CNN layers are added with TimeDistributed function in order to train every temporal slice of input, as we're approaching a Time-Series problem in this case. Then, the processed data is sent to LSTM layers.
 
 \subsubsection{LSTM}
-For the LSTM section, we made 2 Bi-LSTM layers to detect the features and train them forward \& backward. For each layer, the neuron size is 200. Additionally, dropout layers are added in between with value of 0.25 and 0.5 in drop some features for stability.
+For the LSTM section, we made 2 Bi-LSTM layers to detect the features and train them forward \& backward. For each layer, the neuron size is 100. Additionally, dropout layers are added in between with value of 0.25 and 0.5 in drop some features for stability.
 
-Last, we added a dense layer with linear activation function and at the final layer we used "adam" optimizer ("sgd" also worked in this case but we found "adam" optimizer to be accurate after analysis), Mean Squared Error (mse) as the loss function and "mse" as the metric which is explained at first.
+Last, we added a dense layer with linear activation function and at the final layer we used "adam" optimizer ("sgd" also worked in this case but we found "adam" optimizer to be accurate after analysis), Mean Squared Error (mse) as the loss function and "mse" and "mae" as metrics.
 
 \begin{figure}[htbp]
 \centerline{\includegraphics[scale=0.5]{model_arch-1.png}}
-\caption{The proposed model architecture}
+\caption{The summary of the proposed model}
 \label{model}
 \end{figure}
 
-The architecture for the model is shown in Fig. \ref{model}. After the model is trained, we made it to plot the graph for the loss values (both training and validation) and at first it proved to be less and later varied accordingly (shown in Fig. \ref{loss-1} and \ref{loss-2}.). But the loss and mse varies when the model is saved and made to train again with saved parameters (this is fully explained in the testing phase). Then, we managed to refine the test dataset back to arrays using the reshape() function, then made the model to predict the dataset. The graph is plotted and the results proved to be great. The model was able to predict the stock data with given time series and it's shown in Fig. \ref{predict-1}. 
+The architecture for the model is shown in Fig. \ref{model}. After the model is trained, we made it to plot the graph for the loss values (both training and validation) and at first it proved to be less and later it varied accordingly (shown in Fig. \ref{loss-1} and \ref{loss-2}.). But the loss and mse varies when the model is saved and made to train again with saved parameters (this is fully explained in the testing phase). Then, we managed to refine the test dataset back to arrays using the reshape() function, then made the model to predict the dataset. The graph is plotted and the results proved to be great. The model was able to predict most of the stock data with given time series and it's shown in Fig. \ref{predict-1}. 
 
 \begin{figure}[htbp]
 \centerline{\includegraphics[scale=0.7]{loss-1.png}}
@@ -160,53 +155,119 @@ The architecture for the model is shown in Fig. \ref{model}. After the model is 
 \label{predict-1}
 \end{figure}
 
+\begin{table}[htbp]
+	\caption{Accuracy scores}
+	\begin{center}
+		\begin{tabular}{|c|c|}
+			\hline
+			\multicolumn{2}{|c|}{\textbf{Scores}} \\
+			\cline{1-2} 
+			\textbf{\textit{Name}}& \textbf{\textit{Score}} \\
+			\hline
+			MSE & 0.035 \\
+			\hline
+			MAE & 0.075 \\
+			\hline
+			Variance & 0.935370\\
+			\hline
+			R2 Score & 0.9353 \\
+			\hline
+			Max Error & 0.174930 \\
+			\hline
+		\end{tabular}
+		\label{tab-mse}
+	\end{center}
+\end{table}
+
+
 \subsection{Testing Phase}
 After the model has been trained and the values are noted, we saved the model in HDF5 format using Keras API in TensorFlow library. Then, we loaded the HDF5 file and tried training the model again but this time with the different dataset, we were able to train the model but the loss value varies accordingly. For example, if the loss is 0.055 during training phase, the loss increases to 0.153 (estimated, not accurate). It is also found that this happens depending on the dataset we use, for NIFTY sample dataset the error didn't occur whereas in the NASDAQ dataset it occured while loading up the saved model.
 
-We tested and experimented the model with different datasets from Kaggle consisting sample data of mixed content from different stock markets \cite{b10}, NIFTY-50 \cite{b11}, NASDAQ and NYSE \cite{b12} to find how the model copes up with different stock market (shown in Fig. \ref{predict-1} and Fig. \ref{predict-2}). We also did with real time dataset by fetching data from Alpha Vantage API (at first step) and tested the model. It was able to predict most of the stocks as shown in the figures.
+We tested and experimented the model with different datasets from Kaggle consisting sample data of mixed content from different stock markets \cite{b10}, NIFTY-50 \cite{b11}, NASDAQ and NYSE \cite{b12} to find how the model copes up with different stock market (shown in Fig. \ref{predict-1} and Fig. \ref{predict-2}). We also did with real time dataset by fetching data from Alpha Vantage API (at first step) and tested the model. It was able to predict most of the stocks as shown in the figures and in table \ref{tab-mse}.
 
-\begin{figure}[htbp]
+\begin{figure*}[htbp]
 \centerline{\includegraphics[scale=0.7]{predict_2.png}}
 \caption{The prediction graph for sample NIFTY data}
 \label{predict-2}
-\end{figure}
+\end{figure*}
+
+\begin{table*}[htbp]
+	\caption{Accuracy with datasets}
+	\begin{center}
+		\scalebox{1.2}{
+		\begin{tabular}{|c|c|}
+			\hline
+			\multicolumn{2}{|c|}{\textbf{Dataset and MSE Scores}} \\
+			\cline{1-2} 
+			\textbf{\textit{Dataset}}& \textbf{\textit{MSE Score}} \\
+			\hline
+			NIFTY (SBIN - sample) & 0.001 \\
+			\hline
+			NASDAQ (ACTG - sample) & 0.1565 \\
+			\hline
+			NASDAQ (AAOI - sample) & 0.0016\\
+			\hline
+			NYSE (IBM - real) & 0.0027 \\
+			\hline
+			BSE (RELIANCE - real) & 0.0145 \\
+			\hline
+		\end{tabular}
+		}
+		\label{tab-mse}
+	\end{center}
+\end{table*}
 
 \subsection{Deployment}
 This section is considered as minimal one because we used Kaggle notebooks in order to create and deploy the models but we realised some developers who don't work with Kaggle and prefer local environments and tools like Conda. So, we made a Docker Image for them in order to work with Jupyterlab (instead of Jupyter notebook) with the GitHub repository as the folder. Initially, it was hard because by default, Docker Images are huge in size because of the OS images like Ubuntu. We got the image size as 250MB at first (without installing any Python libraries) and 750MB when uncompressed. We also tried to use pre-defined images for Jupyter notebooks where the libraries are already installed and ready, but we didn't use them as they are of huge size (approximately 3GB). So we added some libraries and made a docker image with Conda environment (via miniconda) on top of it, still we reached 1GB of data due to the size of libraries and scripts bundled so it's considered to be used only when a user doesn't want to use Kaggle as a working environment.
 
 For deploying the image to Docker Hub, we used GitHub actions which is a CI tool from GitHub to write a CI action in which an image is published every time a change or release is made, so that users need not build image everytime locally. Docker Inc. already made a GitHub action \cite{b13} to perform the above functions, so we used and modified it to build and push Docker images. Similarly, we also made Helm charts if a person needs to run the Docker Image in a Kubernetes cluster. Initially we faced difficulties but after trial and error, we were able to expose the service to the network and run our Docker Image in Kubernetes. The Helm charts are deployed on the Artifact Hub (https://artifacthub.io) and anyone can download the templates from the repository.
 
+\FloatBarrier
 \section{End Product}
-After several works and tests, we were able to obtain a great working CNN-LSTM Neural Network model which can able to predict most of the stocks when the relevant stock market data is provided. In order to check how our model performed, we compared with other models which are obtained during the literature survey and found the results in the table \ref{compare}
 
-\begin{table}
-\label{compare}
-\begin{tabular}{c1c1}
-\hline
-\multicolumn{4}{c}{Comparison and analysis} \\
-\hline
-\multicolumn{2}{c}{Model} & \multicolumn{2}{c}{Accuracy} \\
-\hline
-\multicolumn{2}{c}{CNN-LSTM (proposed)} & \multicolumn{2}{c}{MSE = 0.03 (Avg)} \\
-\multicolumn{2}{c}{Random Forest \cite{b1}} & \multicolumn{2}{c}{EVS = -0.400594} \\
-\multicolumn{2}{c}{AELSTM \cite{b2}} & \multicolumn{2}{c}{53\% (Avg)} \\
-\multicolumn{2}{c}{LBL-LSTM (Proposed) \cite{b3}} & \multicolumn{2}{c}{0.017 (Train), 0.026 (Test)} \\
-\multicolumn{2}{c}{LSTM (Decentralized) \cite{b9}} & \multicolumn{2}{c}{MSE = 0.0003} \\
-\multicolumn{2}{c}{IKN-ConvLSTM \cite{b14}} & \multicolumn{2}{c}{98.307\%} \\
-\multicolumn{2}{c}{k-NN Regression \cite{b15}} & \multicolumn{2}{c}{90\%} \\
-\multicolumn{2}{c}{Rider-MBO-based Deep-ConvLSTM \cite{b16}} & \multicolumn{2}{c}{MSE = 7.2487, RMSE = 2.6923} \\
-\multicolumn{2}{c}{SVM \& Logistic Regression \cite{b17}} & \multicolumn{2}{c}{87\% to 90\%} \\
-\multicolumn{2}{c}{SVM with RBF Kernel \cite{b18}} & \multicolumn{2}{c}{89\%} \\
-\multicolumn{2}{c}{LSTM \cite{b19}} & 
-\multicolumn{2}{c}{MSE = 3.5 to 3.7} \\
-\hline
-\end{tabular}
-\end{table}
+After several works and tests, we were able to obtain a great working CNN-LSTM Neural Network model which can able to predict most of the stocks when the relevant stock market data is provided. In order to check how our model performed, we compared with other models which are obtained during the literature survey and found the results in the table \ref{tab1}
 
-The model experimented from \cite{b3} is proposed one and haven't been tested rigorously. The model from \cite{b9} performed well and stated that an average of 0.0003 to 0.0004. In our case, we obtained an MSE of 0.001 maximum but varied accordingly with different datasets we experimented.
+The model experimented from \cite{b3} is proposed one and haven't been tested rigorously. The model from \cite{b9} performed well and stated that an average of 0.0003 to 0.0004 due to the fact that the data is processed and decentralized. In our case, we obtained an MSE of 0.001 maximum and 0.002 in average but varied accordingly with different datasets we experimented.
 
+\begin{table*}[!htbp]
+	\caption{Comparison with other models}
+	\begin{center}
+		\begin{tabular}{|c|c|c|}
+			\hline
+			\multicolumn{3}{|c|}{\textbf{Models}} \\
+			\cline{1-3} 
+			\textbf{\textit{Model name}}& \textbf{\textit{Reference}}& \textbf{\textit{Accuracy}} \\
+			\hline
+			\hl{CNN-LSTM (Our model)} & & MSE = 0.035 (avg)  \\
+			\hline
+			Random Forest & \cite{b1} & EVS = -0.400594 \\
+			\hline
+			AELSTM & \cite{b2} & 53\% (Avg) \\
+			\hline
+			LBL-LSTM (Proposed) & \cite{b3} & 0.017 (Train), 0.026 (Test) \\
+			\hline
+			LSTM (Decentralized) & \cite{b9} & MSE = 0.0003 \\
+			\hline
+			IKN-ConvLSTM & \cite{b14} & 98.307\% \\
+			\hline
+			k-NN Regression & \cite{b15} & 90\% \\
+			\hline
+			Rider-MBO-based Deep-ConvLSTM & \cite{b16} & MSE = 7.2487, RMSE = 2.6923 \\
+			\hline
+			SVM \& Logistic Regression & \cite{b17} & 87\% to 90\% \\
+			\hline
+			SVM with RBF Kernel & \cite{b18} & 89\% \\
+			\hline
+			LSTM & \cite{b19} & MSE = 3.5 to 3.7 \\
+			\hline
+		\end{tabular}
+		\label{tab1}
+	\end{center}
+\end{table*}
+
+\FloatBarrier
 \section {Conclusion}
-Designing a customised CNN-LSTM is bit tricky at first, because there are many algorithms already present to predict the stock data, however not fully optimized. We trained and tested the model with different kinds of datasets like NYSE, NASDAQ and NIFTY and found that accuracy of the model varies accordingly. For NIFTY \cite {b11}, the model proved to be good and predicted at most 99\% of stocks even during the testing stage. But for other datasets like NYSE \cite{b12}, the accuracy varied during the testing phase and not during training. We believe it may be due to the noise present in the dataset during the testing phase and compiling it again. Also, we obtained MSE of value 0.001 to 0.05 (approx) during training and 0.002 to 0.05 (approx) for validation with different datasets. For MAE, the values ranged from 0.2 to 0.5 for training and 0.3 to 0.5 for testing. Overall, the paper presents on how CNN can be combined with LSTM to obtain the features from the tensors processed from dataset and detect patterns based on the features obtained. The paper also presents one of the ways in which stock market can be predicted with great accuracy.
+Designing a customised CNN-LSTM is bit tricky at first, because there are many algorithms already present to predict the stock data, however not fully optimized. We trained and tested the model with different kinds of datasets like NYSE, NASDAQ and NIFTY and found that accuracy of the model varies accordingly. For NIFTY \cite {b11}, the model proved to be good and predicted at most 99\% of stocks even during the testing stage. But for other datasets like NYSE \cite{b12}, the accuracy varied during the testing phase and not during training. We believe it may be due to the noise present in the dataset during the testing phase and compiling it again. Also, we obtained MSE of value 0.001 to 0.05 (approx) during training and 0.002 to 0.1 (approx) for validation with different datasets. Overall, the paper presents on how CNN can be combined with LSTM to obtain the features from the tensors processed from dataset and detect patterns based on the features obtained. The paper also presents one of the ways in which stock market can be predicted with great accuracy.
 
 
 \begin{thebibliography}{00}
