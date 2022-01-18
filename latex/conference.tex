@@ -120,11 +120,11 @@ For the neural network, we first analysed with other works and then decided the 
 
 \begin{figure*}[htbp]
 \centerline{\includegraphics[scale=0.3]{SI - Arch.png}}
-\caption{Architecture for Deep Learning model}
+\caption{Overview for Deep Learning model (CNN-LSTM)}
 \label{model-sam}
 \end{figure*}
 
-\textbf{NOTE: For this project, we mainly used Python and Jupyter Notebooks via Colab and Kaggle to perform the experiment. To see the experiment we did, refer \url{https://github.com/Circle-1/Stock-X}}
+\textbf{NOTE: For this project, we mainly used Python and Jupyter Notebooks via Colab and Kaggle to perform the experiment. This projects also contains other algorithms done along with CNN-LSTM. To see the experiment we did, refer \url{https://github.com/Circle-1/Stock-X}}
 
 \section{Experimental Analysis}
 For the experiment, we used Python for data preprocessing and creating a Neural Network model. For deployment, it's considered as minimal because, we saved the model in HDF5 format using Keras, but in addition to that, we made a Docker Image and Helm charts for people to work on. In this section, the major parts of the project and the experiments performed are described.
@@ -268,6 +268,8 @@ This section is considered as minimal one because we used Kaggle notebooks in or
 
 For deploying the image to Docker Hub, we used GitHub actions which is a CI tool from GitHub to write a CI action in which an image is published every time a change or release is made, so that users need not build image everytime locally. Docker Inc. already made a GitHub action \cite{b13} to perform the above functions, so we used and modified it to build and push Docker images. Similarly, we also made Helm charts if a person needs to run the Docker Image in a Kubernetes cluster. Initially we faced difficulties but after trial and error, we were able to expose the service to the network and run our Docker Image in Kubernetes. The Helm charts are deployed on the Artifact Hub (https://artifacthub.io) and anyone can download the templates from the repository.
 
+Last, to enable transparency of our work done, we created a site in which all our works can be viewed (not only CNN-LSTM model but also other models done by our team), the static website is created using Mercury library \cite{b24} by MLJAR Inc in which the backend is made using Django framework. This library is helpful in hosting notebooks along with results and we hosted the built site using Heroku on free dyno tier server. The limit of the server is 750MB, so any extra libraries cannot be installed for running the models within the server and it's present only to showcase our work done. The website can be viewed at \textbf{ \href{https://stock-x-proj.herokuapp.com/}{https://stock-x-proj.herokuapp.com/}}
+
 \FloatBarrier
 \section{End Product}
 
@@ -275,7 +277,7 @@ After several works and tests, we were able to obtain a great working CNN-LSTM N
 
 The model experimented from \cite{b3} is proposed one and haven't been tested rigorously. The model from \cite{b9} performed well and stated that an average of 0.0003 to 0.0004 due to the fact that the data is processed and decentralized. In our case, we obtained an MSE of 0.001 maximum and 0.035 in average as it varied accordingly with different datasets we experimented.
 
-We also experimented our model with different models made from our team* to see how the CNN-LSTM model performed well when compared with other models too. The results were shown in table \ref{tab2}
+We also experimented our model with different models made from our team to see how the CNN-LSTM model performed well when compared with other models like RNN-LSTM \cite{b25}, LSTM-GRU \cite{b26}, XGBoost \cite{b27}. The results were shown in table \ref{tab2}
 
 The varying accuracy of the CNN-LSTM model lies on how the data is processed and the order of the data items (shuffled or un-shuffled). In both cases, the model performed pretty fine and was almost able to predict most of the time-series data with minimal error and variance.
 
@@ -290,9 +292,11 @@ The varying accuracy of the CNN-LSTM model lies on how the data is processed and
 			\hline
 			CNN-LSTM & 0.035 \\
 			\hline
-			LSTM & 0.045 \\
+			RNN-LSTM \cite{b25} & 0.045 \\
 			\hline
-			XGBoost & 0.047 \\
+			XGBoost \cite{b27} & 0.047 \\
+			\hline
+			LSTM-GRU \cite{b26} & 2.95 \\
 			\hline
 		\end{tabular}
 		\label{tab2}
@@ -345,7 +349,7 @@ The varying accuracy of the CNN-LSTM model lies on how the data is processed and
 
 \FloatBarrier
 \section {Conclusion}
-Designing a customised CNN-LSTM is bit tricky at first, because there are many algorithms already present to predict the stock data, however not fully optimized. We trained and tested the model with different kinds of datasets like NYSE, NASDAQ and NIFTY and found that accuracy of the model varies accordingly. For NIFTY \cite {b11}, the model proved to be good and predicted at most 99\% of stocks even during the testing stage. But for other datasets like NYSE \cite{b12}, the accuracy varied during the testing phase and not during training. We believe it may be due to the noise present in the dataset during the testing phase and compiling it again. Also, we obtained MSE of value 0.001 to 0.05 (approx) during training and 0.002 to 0.1 (approx) for validation with different datasets. Overall, the paper presents on how CNN can be combined with LSTM to obtain the features from the tensors processed from dataset and detect patterns based on the features obtained. The paper also presents one of the ways in which stock market can be predicted with great accuracy.
+Designing a customised CNN-LSTM is bit tricky at first, because there are many algorithms already present to predict the stock data, however not fully optimized. We trained and tested the model with different kinds of datasets like NYSE, NASDAQ and NIFTY and found that accuracy of the model varies accordingly. For NIFTY \cite {b11}, the model proved to be good and predicted at most 99\% of stocks even during the testing stage. But for other datasets like NYSE \cite{b12}, the accuracy varied during the testing phase and not during training. We believe it may be due to the noise present in the dataset during the testing phase and compiling it again. The model also predicted most of the stocks in real time. Also, we obtained MSE of value 0.001 to 0.05 (approx) during training and 0.002 to 0.1 (approx) for validation with different datasets. Overall, the paper presents on how CNN can be combined with LSTM to obtain the features from the tensors processed from dataset and detect patterns based on the features obtained. The paper also presents one of the ways in which stock market can be predicted with great accuracy.
 
 
 \begin{thebibliography}{00}
@@ -372,6 +376,11 @@ Designing a customised CNN-LSTM is bit tricky at first, because there are many a
 \bibitem{b21} GOH, T. S., HENRY, H., \& ALBERT, A. (2021). Determinants and prediction of the stock market during COVID-19: Evidence from Indonesia. The Journal of Asian Finance, Economics, and Business, 8(1), 1-6.
 \bibitem{b22} Gandhmal, D. P., \& Kumar, K. (2021). Wrapper-Enabled Feature Selection and CPLM-Based NARX Model for Stock Market Prediction. The Computer Journal, 64(2), 169-184.
 \bibitem{b23} Ghashami, F., Kamyar, K., \& Riazi, S. A. (2021). Prediction of Stock Market Index Using a Hybrid Technique of Artificial Neural Networks and Particle Swarm Optimization. Applied Economics and Finance, 8(3), 1-8.
+\bibitem{b24} Mercury library - Created by MLJAR Inc (2021-2022). Link: https://mljar.com/mercury and https://github.com/mljar/mercury
+\bibitem{b25} Prediction using RNN-LSTM model created by Rajapriya R. Link: https://colab.research.google.com/drive/1NW95U9WRl5hqkp0DT7oY3Q
+D1fWjU53fU?usp=sharing
+\bibitem{b26} Prediction using LSTM-GRU model created by Vineetha R S. Link: https://www.kaggle.com/vineethars/stock-prediction-lstm-gru
+\bibitem{b27} Prediction using XGBoost Regressor model created by Anurag M Bagde. Link: https://www.kaggle.com/anurag1412/regressor-model-appl-stock-prediction
 
 \end{thebibliography}
 \vspace{12pt}
