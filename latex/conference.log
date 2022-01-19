@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 21.12) (preloaded format=pdflatex 2021.12.7)  19 JAN 2022 09:18
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 21.12) (preloaded format=pdflatex 2021.12.7)  19 JAN 2022 19:14
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -816,96 +816,112 @@ LaTeX Info: Redefining \nameref on input line 26.
 
 
 ]
-LaTeX Font Info:    Trying to load font information for U+msa on input line 102
+LaTeX Font Info:    Trying to load font information for U+msa on input line 106
 .
 
 (C:\Users\Aadhitya\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 102
+LaTeX Font Info:    Trying to load font information for U+msb on input line 106
 .
 
 (C:\Users\Aadhitya\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-<SI - Arch.png, id=91, 1585.925pt x 883.3pt>
+<SI - Arch.png, id=90, 1585.925pt x 883.3pt>
 File: SI - Arch.png Graphic file (type png)
 <use SI - Arch.png>
-Package pdftex.def Info: SI - Arch.png  used on input line 122.
+Package pdftex.def Info: SI - Arch.png  used on input line 126.
 (pdftex.def)             Requested size: 475.78117pt x 264.99205pt.
 
 [2]
 <Annotation-1.png, id=106, 328.72812pt x 142.03062pt>
 File: Annotation-1.png Graphic file (type png)
 <use Annotation-1.png>
-Package pdftex.def Info: Annotation-1.png  used on input line 142.
+Package pdftex.def Info: Annotation-1.png  used on input line 146.
 (pdftex.def)             Requested size: 230.10811pt x 99.42075pt.
  [3 <./SI - Arch.png> <./Annotation-1.png>]
 <MOD.png, id=114, 705.63625pt x 407.5225pt>
 File: MOD.png Graphic file (type png)
 <use MOD.png>
-Package pdftex.def Info: MOD.png  used on input line 167.
+Package pdftex.def Info: MOD.png  used on input line 171.
 (pdftex.def)             Requested size: 423.38501pt x 244.51538pt.
 <model_arch-1.png, id=115, 282.05376pt x 343.78438pt>
 File: model_arch-1.png Graphic file (type png)
 <use model_arch-1.png>
-Package pdftex.def Info: model_arch-1.png  used on input line 173.
+Package pdftex.def Info: model_arch-1.png  used on input line 177.
 (pdftex.def)             Requested size: 141.02652pt x 171.89175pt.
 <LSTM_Cell.png, id=116, 1204.5pt x 825.0825pt>
 File: LSTM_Cell.png Graphic file (type png)
 <use LSTM_Cell.png>
-Package pdftex.def Info: LSTM_Cell.png  used on input line 179.
+Package pdftex.def Info: LSTM_Cell.png  used on input line 183.
 (pdftex.def)             Requested size: 204.76228pt x 140.26216pt.
  [4 <./MOD.png> <./model_arch-1.png> <./LSTM_Cell.png>]
 <loss-1.png, id=133, 310.66063pt x 204.765pt>
 File: loss-1.png Graphic file (type png)
 <use loss-1.png>
-Package pdftex.def Info: loss-1.png  used on input line 187.
+Package pdftex.def Info: loss-1.png  used on input line 191.
 (pdftex.def)             Requested size: 217.46095pt x 143.3345pt.
 <loss-2.png, id=134, 334.24875pt x 203.76125pt>
 File: loss-2.png Graphic file (type png)
 <use loss-2.png>
-Package pdftex.def Info: loss-2.png  used on input line 193.
+Package pdftex.def Info: loss-2.png  used on input line 197.
 (pdftex.def)             Requested size: 233.97252pt x 142.6319pt.
 <predict_1.png, id=135, 310.15875pt x 217.31187pt>
 File: predict_1.png Graphic file (type png)
 <use predict_1.png>
-Package pdftex.def Info: predict_1.png  used on input line 199.
+Package pdftex.def Info: predict_1.png  used on input line 203.
 (pdftex.def)             Requested size: 217.10963pt x 152.11726pt.
 <predict_2.png, id=142, 295.60437pt x 213.79875pt>
 File: predict_2.png Graphic file (type png)
 <use predict_2.png>
-Package pdftex.def Info: predict_2.png  used on input line 235.
+Package pdftex.def Info: predict_2.png  used on input line 238.
 (pdftex.def)             Requested size: 206.92163pt x 149.6581pt.
  [5 <./loss-1.png> <./loss-2.png> <./predict_1.png>]
-[6 <./predict_2.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 365--366
+<rnn-lstm.png, id=171, 627.84563pt x 289.58188pt>
+File: rnn-lstm.png Graphic file (type png)
+<use rnn-lstm.png>
+Package pdftex.def Info: rnn-lstm.png  used on input line 310.
+(pdftex.def)             Requested size: 188.35513pt x 86.87523pt.
+<lstm-gru.png, id=172, 615.80063pt x 382.42876pt>
+File: lstm-gru.png Graphic file (type png)
+<use lstm-gru.png>
+Package pdftex.def Info: lstm-gru.png  used on input line 316.
+(pdftex.def)             Requested size: 246.31589pt x 152.96878pt.
+<xgboost.png, id=173, 315.1775pt x 215.30438pt>
+File: xgboost.png Graphic file (type png)
+<use xgboost.png>
+Package pdftex.def Info: xgboost.png  used on input line 322.
+(pdftex.def)             Requested size: 157.58836pt x 107.65192pt.
+
+[6 <./predict_2.png>] [7 <./rnn-lstm.png> <./lstm-gru.png> <./xgboost.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 386--387
 []\OT1/ptm/m/n/8 Kaggle, Huge Stock Mar-ket Dataset (on-line). Link:
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 365--366
+Underfull \hbox (badness 10000) in paragraph at lines 386--387
 \OT1/ptm/m/n/8 https://www.kaggle.com/borismarjanovic/price-volume-data-for-all
 -
  []
 
 
-Underfull \hbox (badness 2229) in paragraph at lines 367--368
+Underfull \hbox (badness 2229) in paragraph at lines 388--389
 []\OT1/ptm/m/n/8 Kaggle, Stock Mar-ket Data (NAS-DAQ, NYSE, S&P500). Link:
  []
 
 
-Underfull \hbox (badness 1521) in paragraph at lines 368--369
+Underfull \hbox (badness 1521) in paragraph at lines 389--390
 []\OT1/ptm/m/n/8 GitHub, Build and Push Docker im-ages (GitHub Ac-tion), Link:
  []
 
-[7]
-Underfull \hbox (badness 3547) in paragraph at lines 379--380
+
+Underfull \hbox (badness 3547) in paragraph at lines 400--401
 []\OT1/ptm/m/n/8 Mercury li-brary - Cre-ated by ML-JAR Inc (2021-2022). Link:
  []
 
 
-Overfull \hbox (2.76622pt too wide) in paragraph at lines 380--382
+Overfull \hbox (2.76622pt too wide) in paragraph at lines 401--403
 \OT1/ptm/m/n/8 https://colab.research.google.com/drive/1NW95U9WRl5hqkp0DT7oY3Q
  []
 
@@ -930,10 +946,10 @@ Package rerunfilecheck Info: File `conference.out' has not changed.
 (rerunfilecheck)             Checksum: 923F5988E1474FB0FF14776676FE5A23;1578.
  ) 
 Here is how much of TeX's memory you used:
- 21318 strings out of 478659
- 401798 string characters out of 2844498
- 684933 words of memory out of 3000000
- 38990 multiletter control sequences out of 15000+600000
+ 21345 strings out of 478659
+ 402192 string characters out of 2844498
+ 686177 words of memory out of 3000000
+ 39011 multiletter control sequences out of 15000+600000
  442943 words of font info for 101 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  84i,10n,80p,3869b,465s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -944,9 +960,9 @@ es/utmb8a.pfb><C:/Users/Aadhitya/AppData/Local/Programs/MiKTeX/fonts/type1/urw/
 times/utmbi8a.pfb><C:/Users/Aadhitya/AppData/Local/Programs/MiKTeX/fonts/type1/
 urw/times/utmr8a.pfb><C:/Users/Aadhitya/AppData/Local/Programs/MiKTeX/fonts/typ
 e1/urw/times/utmri8a.pfb>
-Output written on conference.pdf (8 pages, 578590 bytes).
+Output written on conference.pdf (8 pages, 881979 bytes).
 PDF statistics:
- 256 PDF objects out of 1000 (max. 8388607)
- 63 named destinations out of 1000 (max. 500000)
- 162 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 265 PDF objects out of 1000 (max. 8388607)
+ 66 named destinations out of 1000 (max. 500000)
+ 177 words of extra memory for PDF output out of 10000 (max. 10000000)
 
